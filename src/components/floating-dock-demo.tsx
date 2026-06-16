@@ -1,9 +1,10 @@
 import { FloatingDock } from "./ui/floating-dock";
 import { LayoutGrid } from 'lucide-react';
 import { useContext } from "react";
-import { windowContext } from "../App";
-import { Info } from 'lucide-react';
+import { windowContext, type WindowType } from "../App";
+import { Info, ContactRound } from 'lucide-react';
 import About from "./about";
+import Contact from "./Contact";
 
 type LinkType = {
   title: string
@@ -12,7 +13,19 @@ type LinkType = {
 }
 
 export default function FloatingDockDemo() {
-  const { setWindows } = useContext(windowContext);
+  const { windows, setWindows } = useContext(windowContext);
+
+  const handleOnClick = (windowProps: WindowType) => {
+    if (windows.some((window) => window.title === windowProps.title)) return;
+    setWindows((prev) => [
+      ...prev,
+      {
+        title: windowProps.title,
+        content: windowProps.content
+      }
+    ])
+  }
+
 
   const links: LinkType[] = [
     {
@@ -20,7 +33,7 @@ export default function FloatingDockDemo() {
       icon: (
         <LayoutGrid className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      onClick: () => { }
+      onClick: () => handleOnClick({ title: "Home", content: <div>Home Content</div> })
     },
 
     {
@@ -28,15 +41,15 @@ export default function FloatingDockDemo() {
       icon: (
         <Info className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      onClick: () => {
-        setWindows((prev) => [
-          ...prev,
-          {
-            title: "About Me",
-            content: <About />
-          }
-        ])
-      }
+      onClick: () => handleOnClick({ title: "About", content: <About /> })
+    },
+    
+    {
+      title: "Contact",
+      icon: (
+        <ContactRound className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+      ),
+      onClick: () => handleOnClick({ title: "Contact", content: <Contact /> })
     }
   ];
 

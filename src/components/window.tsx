@@ -51,15 +51,15 @@ export default function Window({ title, content, zIndex, onClose, initialPositio
 
     return (
         <div
-            className="absolute max-w-[90vw] max-h-[90vh]:"
-            style={{ left: position.x, top: position.y, zIndex: zIndex ?? 20 }}
+            className="absolute"
+            style={{ left: position.x, top: position.y, zIndex: zIndex ?? 20, touchAction: "none" }}
+            onPointerMove={handlePointerMove}
+            onPointerUp={endDrag}
         >
-            <div className="rounded-xl border border-white/10 bg-gradient-to-tr from-black/60 via-slate-950/60 to-black/50 text-slate-100 shadow-[0_36px_80px_-36px_rgba(0,0,0,0.75)] backdrop-blur-2xl">
+            <div className="relative h-full rounded-xl border border-white/10 bg-gradient-to-tr from-black/60 via-slate-950/60 to-black/50 text-slate-100 shadow-[0_36px_80px_-36px_rgba(0,0,0,0.75)] backdrop-blur-2xl">
                 <div
                     className="relative flex cursor-move items-center justify-between rounded-t-xl Zbg-gradient-to-b from-black/80 via-black/60 to-black/30 px-2 py-1 text-slate-200 shadow-inner shadow-black/30"
                     onPointerDown={handlePointerDown}
-                    onPointerMove={handlePointerMove}
-                    onPointerUp={endDrag}
                 >
 
                     <div className="pointer-events-none flex-1 text-center text-sm font-medium tracking-tight text-slate-100/90">
@@ -76,7 +76,7 @@ export default function Window({ title, content, zIndex, onClose, initialPositio
                         <span className="relative text-3xl font-semibold text-amber-50"><X /></span>
                     </button>
                 </div>
-                <div className="p-1 h-full">{content}</div>
+                <div className="relative p-1 h-full">{content}</div>
             </div>
         </div>
     )

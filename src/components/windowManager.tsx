@@ -3,7 +3,7 @@ import { useContext } from "react";
 import Window from "./window";
 
 export default function WindowManager() {
-    const { windows } = useContext(windowContext);
+    const { windows, setWindows } = useContext(windowContext);
     return (
         <div className="absolute inset-0">
             {windows.map((window, index) => (
@@ -11,6 +11,10 @@ export default function WindowManager() {
                     key={index}
                     title={window.title}
                     content={window.content}
+                    onClose={() => {
+                        setWindows((prev) => prev.filter((_, i) => i !== index));
+                    }}
+                    
                 />
             ))}
         </div>
