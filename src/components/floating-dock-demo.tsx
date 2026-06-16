@@ -1,77 +1,48 @@
 import { FloatingDock } from "./ui/floating-dock";
-import {
-  IconBrandGithub,
-  IconBrandX,
-  IconExchange,
-  IconNewSection,
-  IconTerminal2,
-} from "@tabler/icons-react";
 import { LayoutGrid } from 'lucide-react';
+import { useContext } from "react";
+import { windowContext } from "../App";
+import { Info } from 'lucide-react';
+import About from "./about";
 
+type LinkType = {
+  title: string
+  icon: React.ReactNode
+  onClick: () => void
+}
 
 export default function FloatingDockDemo() {
-  const links = [
+  const { setWindows } = useContext(windowContext);
+
+  const links: LinkType[] = [
     {
       title: "Home",
       icon: (
         <LayoutGrid className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "#",
+      onClick: () => { }
     },
 
     {
-      title: "Products",
+      title: "About",
       icon: (
-        <IconTerminal2 className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+        <Info className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "#",
-    },
-    {
-      title: "Components",
-      icon: (
-        <IconNewSection className="h-full w-full text-neutral-500 dark:text-neutral-300" />
-      ),
-      href: "#",
-    },
-    {
-      title: "Aceternity UI",
-      icon: (
-        <img
-          src="https://assets.aceternity.com/logo-dark.png"
-          width={20}
-          height={20}
-          alt="Aceternity Logo"
-        />
-      ),
-      href: "#",
-    },
-    {
-      title: "Changelog",
-      icon: (
-        <IconExchange className="h-full w-full text-neutral-500 dark:text-neutral-300" />
-      ),
-      href: "#",
-    },
-
-    {
-      title: "Twitter",
-      icon: (
-        <IconBrandX className="h-full w-full text-neutral-500 dark:text-neutral-300" />
-      ),
-      href: "#",
-    },
-    {
-      title: "GitHub",
-      icon: (
-        <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />
-      ),
-      href: "#",
-    },
+      onClick: () => {
+        setWindows((prev) => [
+          ...prev,
+          {
+            title: "About Me",
+            content: <About />
+          }
+        ])
+      }
+    }
   ];
+
   return (
-    <div className="flex items-center justify-center h-[35rem] w-full fixed bottom-0 left-0 right-0">
+    <div className="flex items-center justify-center w-full fixed bottom-2 left-0 right-0">
       <FloatingDock
-        mobileClassName="translate-y-20" // only for demo, remove for production
         items={links}
       />
     </div>

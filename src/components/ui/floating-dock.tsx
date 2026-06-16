@@ -23,7 +23,7 @@ export const FloatingDock = ({
   desktopClassName,
   mobileClassName,
 }: {
-  items: { title: string; icon: React.ReactNode; href: string }[];
+  items: { title: string; icon: React.ReactNode; onClick: () => void }[];
   desktopClassName?: string;
   mobileClassName?: string;
 }) => {
@@ -39,7 +39,7 @@ const FloatingDockMobile = ({
   items,
   className,
 }: {
-  items: { title: string; icon: React.ReactNode; href: string }[];
+  items: { title: string; icon: React.ReactNode; onClick: () => void }[];
   className?: string;
 }) => {
   const [open, setOpen] = useState(false);
@@ -68,13 +68,13 @@ const FloatingDockMobile = ({
                 }}
                 transition={{ delay: (items.length - 1 - idx) * 0.05 }}
               >
-                <a
-                  href={item.href}
+                <button
+                  onClick={item.onClick}
                   key={item.title}
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-50 dark:bg-neutral-900"
                 >
                   <div className="h-4 w-4">{item.icon}</div>
-                </a>
+                </button>
               </motion.div>
             ))}
           </motion.div>
@@ -94,7 +94,7 @@ const FloatingDockDesktop = ({
   items,
   className,
 }: {
-  items: { title: string; icon: React.ReactNode; href: string }[];
+  items: { title: string; icon: React.ReactNode; onClick: () => void }[];
   className?: string;
 }) => {
   let mouseX = useMotionValue(Infinity);
@@ -118,12 +118,12 @@ function IconContainer({
   mouseX,
   title,
   icon,
-  href,
+  onClick,
 }: {
   mouseX: MotionValue;
   title: string;
   icon: React.ReactNode;
-  href: string;
+  onClick: () => void;
 }) {
   let ref = useRef<HTMLDivElement>(null);
 
@@ -168,7 +168,7 @@ function IconContainer({
   const [hovered, setHovered] = useState(false);
 
   return (
-    <a href={href}>
+    <button onClick={onClick} className="relative">
       <motion.div
         ref={ref}
         style={{ width, height }}
@@ -195,6 +195,6 @@ function IconContainer({
           {icon}
         </motion.div>
       </motion.div>
-    </a>
+    </button>
   );
 }
