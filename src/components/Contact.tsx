@@ -1,6 +1,7 @@
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import type { ChangeEvent, FormEvent } from "react"
 import emailjs from "@emailjs/browser"
+import { MapPin, Send } from "lucide-react"
 
 interface ContactFormValues {
     firstName: string
@@ -14,12 +15,6 @@ interface EmailJSTemplateParams extends Record<string, unknown> {
     email: string
     message: string
     time: string
-}
-
-interface EmailJSConfig {
-    serviceId: string | undefined
-    templateId: string | undefined
-    publicKey: string | undefined
 }
 
 type FormStatus = "idle" | "sending" | "success" | "error"
@@ -44,15 +39,6 @@ export default function Contact() {
     const [formValues, setFormValues] = useState<ContactFormValues>(initialFormValues)
     const [status, setStatus] = useState<FormStatus>("idle")
     const [notification, setNotification] = useState<string | null>(null)
-
-    const emailjsConfig: EmailJSConfig = useMemo(
-        () => ({
-            serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
-            templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-            publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
-        }),
-        [],
-    )
 
     function handleChange(
         event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>,
@@ -82,13 +68,6 @@ export default function Contact() {
             return
         }
 
-        const { serviceId, templateId, publicKey } = emailjsConfig
-        if (!serviceId || !templateId || !publicKey) {
-            setStatus("error")
-            setNotification("Failed to send message.")
-            return
-        }
-
         const templateParams: EmailJSTemplateParams = {
             name: `${firstName} ${lastName}`,
             email,
@@ -99,7 +78,7 @@ export default function Contact() {
         setStatus("sending")
 
         try {
-            await emailjs.send(serviceId, templateId, templateParams, publicKey)
+            await emailjs.send(import.meta.env.VITE_EMAILJS_SERVICE_ID, import.meta.env.VITE_EMAILJS_TEMPLATE_ID, templateParams, import.meta.env.VITE_EMAILJS_PUBLIC_KEY)
 
             setStatus("success")
             setNotification("Message sent successfully.")
@@ -113,22 +92,29 @@ export default function Contact() {
 
     return (
         <section
-            className="px-8 py-10 md:px-16 overflow-auto h-full"
-            style={{ backgroundColor: "#111111", color: "#F5F3EF" }}
+            className="px-8 py-10 md:px-16 overflow-auto h-full rounded-md"
+            style={{ backgroundColor: "#11111150", color: "#F5F3EF" }}
         >
             <h1 className="font-black text-[3rem] leading-none tracking-tight md:text-[8rem] lg:text-[7rem]">
                 Contact me
             </h1>
 
             <div className="mt-12 grid grid-cols-1 gap-16 md:grid-cols-2 md:gap-12 lg:gap-24">
-                <div className="space-y-10 font-mono text-xs text-zinc-300 md:text-sm">
-                    <p>email@example.com</p>
-                    <p>(555) 555-5555</p>
-                    <p>
-                        123 Demo Street
-                        <br />
-                        New York, NY 12345
-                    </p>
+                <div className="space-y-10 font-mono text-xs text-zinc-300 md:text-sm font-bold">
+                    <div className="flex gap-1 items-center">
+                        <Send size={14} />
+                        <p>arnav4c@gmail.com</p>
+                    </div>
+
+                    <div className="flex gap-1 items-start">
+                        <MapPin size={16} />
+                        <p>
+                            Greater Noida
+                            <br />
+                            Uttar Pradesh 201310, India
+                        </p>
+                    </div>
+
                 </div>
 
                 <form onSubmit={handleSubmit} className="w-full max-w-[450px] space-y-8">
@@ -196,9 +182,8 @@ export default function Contact() {
                         {notification ? (
                             <p
                                 role="status"
-                                className={`font-mono text-xs ${
-                                    status === "success" ? "text-zinc-300" : "text-zinc-400"
-                                }`}
+                                className={`font-mono text-xs ${status === "success" ? "text-zinc-300" : "text-zinc-400"
+                                    }`}
                             >
                                 {notification}
                             </p>

@@ -1,4 +1,6 @@
-import GridBackgroundDemo from "#components/grid-background-demo";
+import About from "./components/about";
+import GridBackgroundDemo from "./components/grid-background-demo";
+import TopPanel from "./components/panel";
 import FloatingDockDemo from "./components/floating-dock-demo";
 import WindowManager from "./components/windowManager";
 import { useState, createContext, type ReactNode } from "react";
@@ -11,6 +13,8 @@ export type WindowType = {
   initialPosition?: {
     x: number
     y: number
+    width: number
+    height: number
   }
 }
 
@@ -25,8 +29,19 @@ function App() {
 
   const [windows, setWindows] = useState<WindowType[]>([]);
 
+  const handleOnClick = (windowProps: WindowType) => {
+    if (windows.some((window) => window.title === windowProps.title)) return;
+    setWindows((prev) => [
+      ...prev,
+      { title: windowProps.title, content: windowProps.content }
+    ])
+  }
+
   return (
     <div className="relative h-dvh overflow-hidden text-slate-100 dark:bg-background dark:text-foreground">
+      <TopPanel
+        onInfoClick={() => handleOnClick({ title: "About", content: <About /> })}
+      />
       <GridBackgroundDemo />
       <windowContext.Provider value={{ windows, setWindows }}>
         <WindowManager />

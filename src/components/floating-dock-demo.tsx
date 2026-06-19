@@ -1,10 +1,12 @@
 import { FloatingDock } from "./ui/floating-dock";
-import { LayoutGrid } from 'lucide-react';
+import { Keyboard, LayoutGrid, MessageSquareMore } from 'lucide-react';
 import { useContext } from "react";
 import { windowContext, type WindowType } from "../App";
 import { Info, ContactRound } from 'lucide-react';
 import About from "./about";
 import Contact from "./Contact";
+import Skills from "./skills";
+import Socials from "./socials";
 
 type LinkType = {
   title: string
@@ -37,20 +39,26 @@ export default function FloatingDockDemo() {
     },
 
     {
-      title: "About",
+      title: "Skills",
       icon: (
-        <Info className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+        <Keyboard className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      onClick: () => handleOnClick({ title: "About", content: <About /> })
+      onClick: () => handleOnClick({ title: "Skills", content: <Skills /> })
     },
-    
     {
       title: "Contact",
       icon: (
         <ContactRound className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
       onClick: () => handleOnClick({ title: "Contact", content: <Contact /> })
-    }
+    },
+    {
+      title: "Socials",
+      icon: (
+        <MessageSquareMore className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+      ),
+      onClick: () => handleOnClick({ title: "Socials", content: <Socials /> })
+    },
   ];
 
   return (

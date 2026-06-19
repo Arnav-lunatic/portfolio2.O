@@ -14,7 +14,7 @@ export default function WindowManager() {
                     onClose={() => {
                         setWindows((prev) => prev.filter((_, i) => i !== index));
                     }}
-                    
+                    zIndex={index}
                 />
             ))}
         </div>
