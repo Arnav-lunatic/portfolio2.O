@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, type ForwardRefExoticComponent, type FunctionComponent, type RefAttributes } from "react"
+import { useContext, type ForwardRefExoticComponent, type RefAttributes } from "react"
 import { IconAtom, IconBrandBootstrap, IconBrandCpp, IconBrandCss3, IconBrandDebian, IconBrandDocker, IconBrandGit, IconBrandGithub, IconBrandHtml5, IconBrandJavascript, IconBrandMongodb, IconBrandMysql, IconBrandPython, IconBrandReact, IconBrandTailwind, IconBrandTypescript, IconBrandVscode, IconCoffee, IconDatabase, IconServer, IconSql, IconTerminal, type IconProps } from "@tabler/icons-react"
 import { MagneticButton } from "./ui/magnetic-button"
 import { windowContext } from "../App"
@@ -67,16 +67,7 @@ interface SkillSectionProps {
     index: number
 }
 
-function SkillSection({ section, index }: SkillSectionProps) {
-    const [isVisible, setIsVisible] = useState(false)
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsVisible(true)
-        }, index * 150)
-
-        return () => clearTimeout(timer)
-    }, [index])
+function SkillSection({ section }: SkillSectionProps) {
 
     return (
         <div

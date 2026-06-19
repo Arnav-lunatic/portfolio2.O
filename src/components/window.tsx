@@ -1,9 +1,9 @@
 import { X } from "lucide-react"
-import { useContext, useRef, useState } from "react"
-import { windowContext, type WindowType } from "../App"
+import {useRef, useState } from "react"
+import { type WindowType } from "../App"
 
 export default function Window({ title, content, zIndex = 0, onClose, initialPosition }: WindowType) {
-    const { setWindows } = useContext(windowContext);
+    // const { setWindows } = useContext(windowContext);
 
     const [position, setPosition] = useState({
         x: initialPosition?.x ?? 64,
@@ -128,7 +128,7 @@ export default function Window({ title, content, zIndex = 0, onClose, initialPos
             onPointerUp={endDrag}
             
         >
-            <div className="relative h-full rounded-xl border border-white/10 bg-gradient-to-tr from-black/60 via-slate-950/60 to-black/50 text-slate-100 shadow-[0_36px_80px_-36px_rgba(0,0,0,0.75)] backdrop-blur-2xl">
+            <div className="relative h-full rounded-xl border border-white/10 bg-linear-to-tr from-black/60 via-slate-950/60 to-black/50 text-slate-100 shadow-[0_36px_80px_-36px_rgba(0,0,0,0.75)] backdrop-blur-2xl">
                 <div
                     className="relative flex cursor-move items-center justify-between rounded-t-xl Zbg-gradient-to-b from-black/80 via-black/60 to-black/30 px-2 py-1 text-slate-200 shadow-inner shadow-black/30"
                     onPointerDown={handlePointerDown}
